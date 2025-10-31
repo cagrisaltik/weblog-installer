@@ -107,8 +107,9 @@ cp "$FRONTEND_FILE_SOURCE" "$FRONTEND_FILE_DEST"
 # API URL'lerini otomatik değiştir (sed komutu)
 echo "API URL'leri güncelleniyor: https://$BACKEND_DOMAIN"
 # (Buradaki 'https://backend.mhtest.info.tr' adresini reponuzdaki varsayılan adresle değiştirin)
-sed -i "s|https://backend.mhtest.info.tr|https://$BACKEND_DOMAIN|g" $FRONTEND_FILE_DEST
-sed -i "s|wss://backend.mhtest.info.tr|wss://$BACKEND_DOMAIN|g" $FRONTEND_FILE_DEST
+sed -i -E "s|https://backend\.[a-zA-Z0-9.-]*|https://$BACKEND_DOMAIN|g" $FRONTEND_FILE_DEST
+sed -i -E "s|wss://backend\.[a-zA-Z0-9.-]*|wss://$BACKEND_DOMAIN|g" $FRONTEND_FILE_DEST
+
 
 echo "Frontend dosyası ayarlandı."
 
@@ -162,7 +163,7 @@ server {
     listen 80;
     server_name $FRONTEND_DOMAIN;
     root $FRONTEND_DIR;
-    index log_monitor.html;
+    index index.html;
 
     location / {
         try_files \$uri \$uri/ =404;
